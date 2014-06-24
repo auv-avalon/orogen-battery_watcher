@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<package>
+    <description brief="">
+    </description>
+    <author></author>
+    <copyright>
+    </copyright>
+    <depend package="drivers/orogen/canbus"/>
+</package>

@@ -1,0 +1,14 @@
+name "battery_watcher"
+
+using_task_library "canbus"
+import_types_from "base"
+import_types_from "battery_watcher.h"
+
+
+
+task_context "Task" do
+    subclasses "canbus::InterfaceTask"
+    output_port "battery_info","battery_data"
+#    port_driven "can_in"
+    periodic 0.1
+end
