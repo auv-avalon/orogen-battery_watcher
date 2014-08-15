@@ -14,5 +14,12 @@ struct battery_data{
     unsigned temperature:16;
     unsigned error_state:8;
 } __attribute__ ((packed)) __attribute__((__may_alias__));
+
+struct BatteryData{
+    unsigned state;
+    unsigned cell_voltage[8];
+    unsigned temperature;
+    unsigned error_state;
+};
 	
 #endif

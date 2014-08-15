@@ -2,16 +2,16 @@ require 'orocos'
 
 #Orocos::CORBA.name_service = "127.0.0.1"
 Orocos.initialize
-Orocos::run 'battery_watcher::Task' => "task", "canbus::Task" => "can" do
+Orocos::run 'battery_watcher::Task' => "task_test", "canbus::Task" => "can_test" do
 
-  can_task = Orocos::TaskContext.get "can"
+  can_task = Orocos::TaskContext.get "can_test"
   can_task.device = "can0" # "can0" for front, "can1" for back
   can_task.deviceType = :SOCKET
-  pp "can_task.watch: #{can_task.watch("board", 0x120, 0x7FF)}" # 0x130 = front, 0x132 = back (momentan noch 0x131 = back)
+  pp "can_task.watch: #{can_task.watch("board", 0x447, 0x7FF)}" # 0x130 = front, 0x132 = back (momentan noch 0x131 = back)
   can_task.configure
   can_task.start
   
-  task = Orocos::TaskContext.get 'task'  
+  task = Orocos::TaskContext.get 'task_test'  
 
   can_task.board.connect_to task.can_in, :type => :buffer, :size => 20
 #  can_task.in.connect_to task.canOut, :type => :buffer, :size => 20

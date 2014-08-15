@@ -42,19 +42,20 @@ void Task::updateHook()
     TaskBase::updateHook();
     canbus::Message msg;
     if(readCanMsg(msg)){
+    //    printf("Got message\n");
         for(uint8_t i=0;i<msg.size;i++){
             if(read_pointer == 0 && msg.data[i] != '@'){
-                printf("Could not find start char it is %02x\n",msg.data[i]);
+  //              printf("Could not find start char it is %02x\n",msg.data[i]);
             }else{
-                buffer[read_pointer] = msg.data[i];
-                read_pointer++;
+                buffer[read_pointer++] = msg.data[i];
             }
         }
         if(read_pointer == sizeof(battery_data)+2){
-            printf("The size is full and the contend is: %02x %02x \n",buffer[0], buffer[sizeof(battery_data)+1]);
+//            printf("The size is full and the contend is: %02x %02x \n",buffer[0], buffer[sizeof(battery_data)+1]);
             if(buffer[0] == '@' && buffer[sizeof(battery_data)+1] == '\n'){
                 battery_data d;
                 memcpy(&d,buffer+1,sizeof(battery_data));
+                /*
                 printf("State: %i\n",d.state);
                 printf("%i ", d.cell_voltage0);
                 printf("%i ", d.cell_voltage1);
@@ -64,7 +65,21 @@ void Task::updateHook()
                 printf("%i ", d.cell_voltage5);
                 printf("%i ", d.cell_voltage6);
                 printf("%i ", d.cell_voltage7);
-                _battery_info.write(d);
+                printf("\n");
+                */
+                BatteryData da;
+                da.cell_voltage[0] = d.cell_voltage0;
+                da.cell_voltage[1] = d.cell_voltage1;
+                da.cell_voltage[2] = d.cell_voltage2;
+                da.cell_voltage[3] = d.cell_voltage3;
+                da.cell_voltage[4] = d.cell_voltage4;
+                da.cell_voltage[5] = d.cell_voltage5;
+                da.cell_voltage[6] = d.cell_voltage6;
+                da.cell_voltage[7] = d.cell_voltage7;
+                da.state = d.state;
+                da.temperature = d.temperature;
+                da.error_state = d.error_state;
+                _battery_info.write(da);
             }
             read_pointer=0;
         }

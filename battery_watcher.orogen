@@ -8,7 +8,7 @@ import_types_from "battery_watcher.h"
 
 task_context "Task" do
     subclasses "canbus::InterfaceTask"
-    output_port "battery_info","battery_data"
+    output_port "battery_info","BatteryData"
 #    port_driven "can_in"
     periodic 0.1
 end
