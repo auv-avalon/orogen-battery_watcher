@@ -50,11 +50,11 @@ void Task::updateHook()
                 buffer[read_pointer++] = msg.data[i];
             }
         }
-        if(read_pointer == sizeof(battery_data)+2){
+        if(read_pointer == sizeof(battery_data_intern)+2){
 //            printf("The size is full and the contend is: %02x %02x \n",buffer[0], buffer[sizeof(battery_data)+1]);
-            if(buffer[0] == '@' && buffer[sizeof(battery_data)+1] == '\n'){
-                battery_data d;
-                memcpy(&d,buffer+1,sizeof(battery_data));
+            if(buffer[0] == '@' && buffer[sizeof(battery_data_intern)+1] == '\n'){
+                battery_data_intern d;
+                memcpy(&d,buffer+1,sizeof(battery_data_intern));
                 /*
                 printf("State: %i\n",d.state);
                 printf("%i ", d.cell_voltage0);

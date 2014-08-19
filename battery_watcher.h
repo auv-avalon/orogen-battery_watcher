@@ -1,7 +1,7 @@
 #ifndef _BATTERY_PROTOCOL_H
 #define _BATTERY_PROTOCOL_H
 
-struct battery_data{
+struct battery_data_intern{
     unsigned state:8;
     unsigned cell_voltage0:16;
     unsigned cell_voltage1:16;
