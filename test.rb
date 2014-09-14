@@ -1,17 +1,18 @@
 require 'orocos'
 
+
 #Orocos::CORBA.name_service = "127.0.0.1"
 Orocos.initialize
-Orocos::run 'battery_watcher::Task' => "task_test", "canbus::Task" => "can_test" do
+Orocos::run 'batterytest' do
 
-  can_task = Orocos::TaskContext.get "can_test"
+  can_task = Orocos::TaskContext.get "cantest"
   can_task.device = "can0" # "can0" for front, "can1" for back
   can_task.deviceType = :SOCKET
   pp "can_task.watch: #{can_task.watch("board", 0x447, 0x7FF)}" # 0x130 = front, 0x132 = back (momentan noch 0x131 = back)
   can_task.configure
   can_task.start
   
-  task = Orocos::TaskContext.get 'task_test'  
+  task = Orocos::TaskContext.get 'batterytest'  
 
   can_task.board.connect_to task.can_in, :type => :buffer, :size => 20
 #  can_task.in.connect_to task.canOut, :type => :buffer, :size => 20
@@ -27,7 +28,8 @@ Orocos::run 'battery_watcher::Task' => "task_test", "canbus::Task" => "can_test"
   reader = task.battery_info.reader
   
   while true
-#    if sample = reader.read
+    if sample = reader.read
+        STDOUT.puts sample
 #        STDOUT.puts sample.state
 #        STDOUT.puts sample.cell_voltage0
 #        STDOUT.puts sample.cell_voltage1
@@ -37,7 +39,7 @@ Orocos::run 'battery_watcher::Task' => "task_test", "canbus::Task" => "can_test"
 #        STDOUT.puts sample.cell_voltage5
 #        STDOUT.puts sample.cell_voltage6
 #        STDOUT.puts "#####################" 
-#    end
+    end
     sleep(0.5)
   end
 end

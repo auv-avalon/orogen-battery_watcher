@@ -12,3 +12,9 @@ task_context "Task" do
 #    port_driven "can_in"
     periodic 0.1
 end
+
+
+deployment "batterytest" do 
+    task("cantest","canbus::Task").periodic(0.1)
+    task("batterytest","Task")
+end
